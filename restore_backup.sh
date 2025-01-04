@@ -1,4 +1,10 @@
-############## Restoring a backup:
+#!/bin/bash
+####################################
+# Restore Ark server backup.
+#
+# Give execute permission to this script:
+# chmod +x restore_backup.sh
+####################################
 
 # Specify which directory we are storing backups.
 backup_dir="/home/ark-server/backups"
