@@ -7,5 +7,15 @@
 # chmod +x clear_backups.sh
 ####################################
 
-# -mtime +30 means any file older than 30 days
-find /home/ark-server/backups -type f -mtime +30 -exec rm -f {} \;
+# Specify which directory to backup to.
+backup_dir="/home/ark-server/backups"
+file_age=7
+
+# Verify that the backup directory exists.
+if [ ! -d $backup_dir ]; then
+  echo "Backup directory $backup_dir does not exist."
+  exit 1
+fi
+
+# -mtime +$file_age means any file older than $file_age days
+find $backup_dir -type f -mtime +$file_age -exec rm -f {} \;

@@ -15,11 +15,28 @@
 backup_files="/home/ark-server/arkserver/ShooterGame/Saved/ZelTheIslandMap"
 backup_file_name="the_island_backup"
 
+# Verifies that the backup files directory exists.
+if [ ! -d $backup_files ]; then
+  echo "Backup files directory $backup_files does not exist."
+  exit 1
+fi
+
 # Specify which directory to backup to.
-# Make sure you have enough space to hold 30 days of backups. This
+# Make sure you have enough space to hold +7 days of backups. This
 # can be on the server itself, to an external hard drive or mounted network share.
 # Warning: Ark worlds can get fairly large so choose your backup destination accordingly.
-dest="/home/ark-server/backups"
+backup_dir="/home/ark-server/backups"
+
+# Check if the directory exists, if not, create it
+if [ ! -d "$backup_dir" ]; then
+    echo "The directory $backup_dir does not exist. Creating it..."
+    mkdir -p "$backup_dir"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to create the directory $backup_dir."
+        exit 1
+    fi
+    echo "Directory created successfully."
+fi
 
 # Create backup archive filename.
 day=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -29,7 +46,7 @@ archive_file="$day-$backup_file_name.tar.gz"
 sudo systemctl stop ark
 
 # Backup the files using tar.
-tar zcvf $dest/$archive_file $backup_files
+tar zcvf $backup_dir/$archive_file $backup_files
 
 # Clear backups
 /home/ark-server/manage/clear_backups.sh
