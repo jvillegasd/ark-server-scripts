@@ -12,6 +12,7 @@
 ####################################
 
 # Variables
+screen_name="arkserver"
 files_to_backup="/home/ark-server/arkserver/ShooterGame/Saved/ZelTheIslandMap"
 backup_file_name="the_island_backup"
 backup_dir="/home/ark-server/backups"
@@ -32,6 +33,11 @@ fi
 # Create backup archive filename.
 day=$(date +"%Y-%m-%d_%H-%M-%S")
 archive_file="$day-$backup_file_name.tar.gz"
+
+# Forcing save on Ark server
+echo "Forcing save on Ark server..."
+screen -S "$screen_name" -X stuff "saveworld\n" || { echo "Error: Failed to send saveworld command."; exit 1; }
+sleep 20  # Give the server time to complete the save. It takes about 10-15 seconds to save world.
 
 # Stop ARK Server
 echo "Stopping Ark server..."
