@@ -12,12 +12,12 @@
 ####################################
 
 # What to backup.
-backup_files="/home/ark-server/arkserver/ShooterGame/Saved/ZelTheIslandMap"
+files_to_backup="/home/ark-server/arkserver/ShooterGame/Saved/ZelTheIslandMap"
 backup_file_name="the_island_backup"
 
 # Verifies that the backup files directory exists.
-if [ ! -d $backup_files ]; then
-  echo "Backup files directory $backup_files does not exist."
+if [ ! -d $files_to_backup ]; then
+  echo "Backup files directory $files_to_backup does not exist."
   exit 1
 fi
 
@@ -46,7 +46,7 @@ archive_file="$day-$backup_file_name.tar.gz"
 sudo systemctl stop ark
 
 # Backup the files using tar.
-tar zcvf $backup_dir/$archive_file $backup_files
+tar zcvf $backup_dir/$archive_file $files_to_backup
 
 # Clear backups
 /home/ark-server/manage/clear_backups.sh
