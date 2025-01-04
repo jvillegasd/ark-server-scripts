@@ -1,0 +1,35 @@
+####################################
+# Ark Server System Service (Using Screen)
+#
+# This service file is used to start the Ark server on system boot.
+# It will also restart the server if it crashes.
+# Locate this file in /lib/systemd/system/ark.service if you are using Ubuntu.
+#
+# This service runs the server in a screen session, this allows you to attach
+# to the session and interact with the server console.
+####################################
+
+
+[Unit]
+Description=Ark Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+
+[Service]
+Type=forking
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=ark-server
+Group=ark-server
+
+# Start the server in a screen session
+ExecStartPre=/home/ark-server/steamcmd +login anonymous +force_install_dir /home/ark-server/arkserver +app_update 376030 +quit
+ExecStart=/usr/bin/screen -dmS arkserver /home/ark-server/arkserver/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?QueryPort=27015?Port=7777?SessionName=zelraw-server?MaxPlayers=25?AltSaveDirectoryName=ZelTheIslandMap -allcores -server -log
+
+# Stop the server by sending a quit command to the screen session
+ExecStop=/usr/bin/screen -S arkserver -X quit
+
+[Install]
+WantedBy=multi-user.target
