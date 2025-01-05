@@ -14,7 +14,7 @@
 screen_name="arkserver"
 
 # message to broadcast
-message="¡Atención! El servidor se reiniciará en contados minutos."
+message=message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, ponerse en un lugar seguro y tomen foto de inventario"
 
 # Check if the screen session is active
 if screen -list | grep -q "$screen_name"; then
