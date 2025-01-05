@@ -13,8 +13,9 @@
 
 # Variables
 screen_name="arkserver"
-files_to_backup="/home/ark-server/arkserver/ShooterGame/Saved/ZelTheIslandMap"
-backup_file_name="the_island_backup"
+map_name="TheIsland"  # Name of the map to backup
+files_to_backup="/home/ark-server/arkserver/ShooterGame/Saved/Zel${map_name}Map"
+backup_file_name="${map_name}_backup"
 backup_dir="/home/ark-server/backups"
 clear_backups_script="/home/ark-server/manage/clear_backups.sh"
 
@@ -43,9 +44,17 @@ sleep 20  # Give the server time to complete the save. It takes about 10-15 seco
 echo "Stopping Ark server..."
 sudo systemctl stop ark || { echo "Error: Failed to stop the Ark server."; exit 1; }
 
-# Backup the files using tar.
+# Backup only necessary files using tar
 echo "Creating backup archive..."
-tar zcvf $backup_dir/$archive_file $files_to_backup || { echo "Error: Failed to create backup archive."; exit 1; }
+cd "$files_to_backup" || { echo "Error: Failed to access $files_to_backup."; exit 1; }
+
+tar zcvf $backup_dir/$archive_file \
+  ${map_name}.ark \
+  ${map_name}_NewLaunchBackup.bak \
+  ${map_name}_AntiCorruptionBackup.bak \
+  *.arkprofile \
+  *.arktribe \
+  $(ls ${map_name}_*.ark | sort | tail -n 1) || { echo "Error: Failed to create backup archive."; exit 1; }
 
 # Run cleanup script if it exists
 if [ -f "$clear_backups_script" ]; then
