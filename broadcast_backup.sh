@@ -1,28 +1,41 @@
 #!/bin/bash
 ####################################
 # Send a broadcast message to all players on the Ark server
-# warning them of an imminent restart.
+# warning them of an imminent restart using Rcon.
 #
-# PD: This script requires the Ark server to be running inside
-# a screen session named "arkserver".
+# PD: This script requires the rcon binary to be located
+# in the "rcon-client" folder and properly configured.
 #
 # Ensure this script has execution permissions:
 # chmod +x broadcast_backup.sh
+#
+# RCON client used: https://github.com/gorcon/rcon-cli
 ####################################
 
-# Name of the screen session where the Ark server is running
-screen_name="arkserver"
+# Path to the rcon client binary
+rcon_client_path="/home/ark-server/rcon-client/rcon"
+
+# RCON server configuration
+rcon_host="127.0.0.1"       # Replace with your server's IP if not localhost
+rcon_port="32330"           # RCON port configured in GameUserSettings.ini
+rcon_password="your_password_here"  # Replace with your RCON password
 
 # Message to broadcast
 message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, pónganse en un lugar seguro y tomen foto de inventario."
 
-# Check if the screen session is active
-if screen -list | grep -q "$screen_name"; then
-  # Send the broadcast message to the Ark server console
-  screen -S "$screen_name" -X stuff "broadcast $message$(printf \\r)"
+# Check if the rcon binary exists
+if [[ ! -x "$rcon_client_path" ]]; then
+  echo "Error: Rcon binary not found or not executable at $rcon_client_path"
+  exit 1
+fi
+
+# Send the broadcast message using rcon
+$rcon_client_path -a $rcon_host:$rcon_port -p $rcon_password "broadcast $message"
+
+# Check if the command was successful
+if [[ $? -eq 0 ]]; then
   echo "Message sent: $message"
 else
-  # Error message if the screen session is not found
-  echo "Error: Screen session '$screen_name' not found. Is the server running?"
+  echo "Error: Failed to send the message. Check your RCON configuration."
   exit 1
 fi
