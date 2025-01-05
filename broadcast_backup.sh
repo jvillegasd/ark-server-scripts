@@ -13,14 +13,14 @@
 # Name of the screen session where the Ark server is running
 screen_name="arkserver"
 
-# message to broadcast
-message=message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, ponerse en un lugar seguro y tomen foto de inventario"
+# Message to broadcast
+message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, pónganse en un lugar seguro y tomen foto de inventario."
 
 # Check if the screen session is active
 if screen -list | grep -q "$screen_name"; then
   # Send the broadcast message to the Ark server console
-  screen -S "$screen_name" -X stuff "broadcast $message\n"
-  echo "message sent: $message"
+  screen -S "$screen_name" -X stuff "broadcast $message$(printf \\r)"
+  echo "Message sent: $message"
 else
   # Error message if the screen session is not found
   echo "Error: Screen session '$screen_name' not found. Is the server running?"
