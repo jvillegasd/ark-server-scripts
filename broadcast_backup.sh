@@ -21,7 +21,7 @@ rcon_port="32330"           # RCON port configured in GameUserSettings.ini
 rcon_password="your_password_here"  # Replace with your ServerAdminPassword
 
 # Message to broadcast
-message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, pónganse en un lugar seguro y tomen foto de inventario."
+message="Atencion, supervivientes! El servidor se reiniciara en 10 minutos, ponganse en un lugar seguro y tomen foto de inventario."
 
 # Check if the rcon binary exists
 if [[ ! -x "$rcon_client_path" ]]; then

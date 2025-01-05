@@ -9,10 +9,16 @@
 #
 # Give execute permission to this script:
 # chmod +x backup.sh
+#
+# # RCON client used: https://github.com/gorcon/rcon-cli, I downloaded the binary from the releases page.
 ####################################
 
 # Variables
-screen_name="arkserver"
+rcon_client_path="/home/ark-server/rcon-client/rcon"
+rcon_host="127.0.0.1"       # Replace with your server's IP if not localhost
+rcon_port="32330"           # RCON port configured in GameUserSettings.ini
+rcon_password="your_password_here"  # Replace with your ServerAdminPassword
+
 map_name="TheIsland"  # Name of the map to backup
 files_to_backup="/home/ark-server/arkserver/ShooterGame/Saved/Zel${map_name}Map"
 backup_file_name="${map_name}_backup"
@@ -35,10 +41,10 @@ fi
 day=$(date +"%Y-%m-%d_%H-%M-%S")
 archive_file="$day-$backup_file_name.tar.gz"
 
-# Forcing save on Ark server
-echo "Forcing save on Ark server..."
-screen -S "$screen_name" -X stuff "saveworld\n" || { echo "Error: Failed to send saveworld command."; exit 1; }
-sleep 20  # Give the server time to complete the save. It takes about 10-15 seconds to save world.
+# Forcing save on Ark server using Rcon
+echo "Forcing save on Ark server using Rcon..."
+$rcon_client_path -a "$rcon_host:$rcon_port" -p "$rcon_password" "saveworld" || { echo "Error: Failed to execute saveworld command via Rcon."; exit 1; }
+sleep 20  # Wait for the server to complete the save. It takes about 10-15 seconds to save world.
 
 # Stop ARK Server
 echo "Stopping Ark server..."
