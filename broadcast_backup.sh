@@ -18,7 +18,7 @@ rcon_client_path="/home/ark-server/rcon-client/rcon"
 # RCON server configuration
 rcon_host="127.0.0.1"       # Replace with your server's IP if not localhost
 rcon_port="32330"           # RCON port configured in GameUserSettings.ini
-rcon_password="your_password_here"  # Replace with your RCON password
+rcon_password="your_password_here"  # Replace with your ServerAdminPassword
 
 # Message to broadcast
 message="¡Atención, supervivientes! El servidor se reiniciará en 10 minutos, pónganse en un lugar seguro y tomen foto de inventario."
