@@ -21,7 +21,7 @@ StartLimitBurst=3
 User=ark-server
 Group=ark-server
 ExecStartPre=/home/ark-server/steamcmd +login anonymous +force_install_dir /home/ark-server/arkserver +app_update 376030 +quit
-ExecStart=/home/ark-server/arkserver/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?QueryPort=27015?Port=7777?SessionName=zelraw-server?MaxPlayers=25?AltSaveDirectoryName=ZelTheIslandMap -allcores -server -log
+ExecStart=/home/ark-server/arkserver/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?QueryPort=27015?Port=7777?RCONPort=27020?SessionName=zelraw-server?MaxPlayers=25?AltSaveDirectoryName=ZelTheIslandMap -allcores -server -log
 
 [Install]
 WantedBy=multi-user.target
