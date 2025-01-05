@@ -9,7 +9,7 @@
 # Ensure this script has execution permissions:
 # chmod +x broadcast_backup.sh
 #
-# RCON client used: https://github.com/gorcon/rcon-cli
+# RCON client used: https://github.com/gorcon/rcon-cli, I downloaded the binary from the releases page.
 ####################################
 
 # Path to the rcon client binary
